@@ -1,0 +1,40 @@
+version: "3"
+
+networks:
+    backend:
+    
+services:
+    workspace:
+        image: golang:1.15
+        environment:
+            FIRESTORE_EMULATOR_HOST: "firebase:8080"
+        volumes:
+            - ./gopath/:/go:cached
+            - ./workspace/:/opt/workspace:cached
+        ports:
+            - 8000:8000
+        working_dir: /opt/workspace
+        networks:
+            - backend
+        command: bash
+        tty: true
+    firebase:
+        build:
+            context: ./docker
+            dockerfile: firebase.dockerfile
+        volumes:
+            - ./firebase/emulators/:/opt/workspace:cached
+            - ./firebase/bin/:/root/.cache:cached
+            - ./firebase/config/:/root/.config:cached
+        ports:
+            - 4000:4000 # Emulator Suite UI
+            - 5000:5000 # Firebase Hosting
+            - 5001:5001 # Clound Functions
+            - 9000:9000 # Realtime Database
+            - 8080:8080 # Cloud Firestore
+            - 8085:8085 # Cloud Pub/Sub
+        working_dir: /opt/workspace
+        networks:
+            - backend
+        command: bash
+        tty: true

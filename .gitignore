@@ -1,0 +1,5 @@
+gopath/
+firebase/bin
+firebase/config
+.env
+.DS_Store
