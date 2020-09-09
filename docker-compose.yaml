@@ -8,6 +8,7 @@ services:
         image: golang:1.15
         environment:
             FIRESTORE_EMULATOR_HOST: "firebase:8080"
+            GCP_PROJECT_ID: "${GCP_PROJECT_ID}"
         volumes:
             - ./gopath/:/go:cached
             - ./workspace/:/opt/workspace:cached
